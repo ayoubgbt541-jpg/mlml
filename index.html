@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkShield Ads</title>
+    <!-- استدعاء مكتبة تيليجرام الأساسية -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 50px 20px;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>شاهد الإعلان للحصول على 15 عملة 🪙</h2>
+    <p>بمجرد انتهاء الإعلان، ستحصل على رصيدك فوراً.</p>
+    
+    <button id="showAdBtn">تشغيل الفيديو 📺</button>
+
+    <script>
+        // تهيئة تطبيق تيليجرام
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // فتح النافذة بكامل الشاشة
+
+        document.getElementById('showAdBtn').addEventListener('click', function() {
+            this.innerText = "جاري عرض الإعلان...";
+            this.disabled = true;
+
+            // ==========================================
+            // هنا تضع الكود الخاص بشبكة الإعلانات (مثل Adsgram)
+            // ==========================================
+            
+            // سنقوم بمحاكاة إعلان مدته 5 ثواني لغرض التجربة
+            setTimeout(() => {
+                
+                // 1. إرسال الكود السري للبوت لإخباره بنجاح المهمة
+                tg.sendData("ad_watched_successfully");
+                
+                // 2. إغلاق النافذة المصغرة تلقائياً ليعود المستخدم للبوت
+                tg.close();
+                
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
