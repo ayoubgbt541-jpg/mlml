@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkShield Ads</title>
-    <!-- استدعاء مكتبة تيليجرام الأساسية -->
+    <!-- مكتبة تيليجرام الأساسية -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- 🌟 إضافة مكتبة Adsgram الرسمية 🌟 -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,6 +28,10 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -33,28 +41,34 @@
     <button id="showAdBtn">تشغيل الفيديو 📺</button>
 
     <script>
-        // تهيئة تطبيق تيليجرام
+        // 1. تهيئة تطبيق تيليجرام
         const tg = window.Telegram.WebApp;
-        tg.expand(); // فتح النافذة بكامل الشاشة
+        tg.expand();
 
+        // 2. 🌟 تهيئة Adsgram (استبدل الرقم برقم Block ID الخاص بك) 🌟
+        // مثال: إذا كان الرقم 1234، اكتب blockId: "1234"
+        const AdController = window.Adsgram.init({ blockId: "42567" });
+
+        // 3. التفاعل مع الزر
         document.getElementById('showAdBtn').addEventListener('click', function() {
-            this.innerText = "جاري عرض الإعلان...";
-            this.disabled = true;
+            const btn = this;
+            btn.innerText = "جاري تحميل الإعلان...";
+            btn.disabled = true;
 
-            // ==========================================
-            // هنا تضع الكود الخاص بشبكة الإعلانات (مثل Adsgram)
-            // ==========================================
-            
-            // سنقوم بمحاكاة إعلان مدته 5 ثواني لغرض التجربة
-            setTimeout(() => {
-                
-                // 1. إرسال الكود السري للبوت لإخباره بنجاح المهمة
+            // 4. طلب تشغيل الإعلان من Adsgram
+            AdController.show().then((result) => {
+                // المستخدم شاهد الإعلان بالكامل بنجاح ✅
                 tg.sendData("ad_watched_successfully");
-                
-                // 2. إغلاق النافذة المصغرة تلقائياً ليعود المستخدم للبوت
                 tg.close();
+
+            }).catch((result) => {
+                // حدث خطأ، أو المستخدم أغلق الإعلان قبل انتهائه ❌
+                btn.innerText = "تشغيل الفيديو 📺";
+                btn.disabled = false;
                 
-            }, 5000);
+                // إظهار رسالة تنبيه للمستخدم داخل تيليجرام
+                tg.showAlert("لم تكتمل مشاهدة الإعلان، لم يتم إضافة الرصيد.");
+            });
         });
     </script>
 </body>
